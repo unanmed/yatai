@@ -102,9 +102,9 @@ function update() {
     if (!mounted) return;
     if (nowType.value === '年最高|年最低|年平均') {
         chart.data.datasets = [
-            generateData(nowData.value, '年平均'),
+            generateData(nowData.value, '年最低'),
             generateData(nowData.value, '年最高'),
-            generateData(nowData.value, '年最低')
+            generateData(nowData.value, '年平均')
         ];
     } else {
         chart.data.datasets = [generateData(nowData.value)];
