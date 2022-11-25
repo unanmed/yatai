@@ -180,7 +180,11 @@ function generateData(data: Data[], type = nowType.value): ChartDataset {
 
 onMounted(async () => {
     chartCanvas = document.getElementById('chart') as HTMLCanvasElement;
-    data = (await axios.get('/dataset.csv', { responseType: 'text' })).data;
+    data = (
+        await axios.get(`${import.meta.env.BASE_URL}dataset.csv`, {
+            responseType: 'text'
+        })
+    ).data;
 
     chartCanvas.width = window.innerWidth - 100;
     chartCanvas.height = window.innerHeight - 100;
