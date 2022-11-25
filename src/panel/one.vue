@@ -54,7 +54,8 @@ const dataType = [
     '五年平均',
     '十年平均',
     '年最高',
-    '年最低'
+    '年最低',
+    '年最高|年最低|年平均'
 ];
 let data: string;
 let regions: Record<string, string[]> = {};
@@ -93,30 +94,34 @@ const longitude = computed(() => {
     return regiondata[`${reg},${con}`][0][6];
 });
 
-watch(nowData, n => {
-    if (!mounted) return;
-    chart.data.datasets = [generateData(n)];
-    chart.data.labels = generateLables(n);
-    chart.update('active');
-});
+watch(nowData, update);
 
-watch(nowType, n => {
+watch(nowType, update);
+
+function update() {
     if (!mounted) return;
-    chart.data.datasets = [generateData(nowData.value)];
+    if (nowType.value === '年最高|年最低|年平均') {
+        chart.data.datasets = [
+            generateData(nowData.value, '年平均'),
+            generateData(nowData.value, '年最高'),
+            generateData(nowData.value, '年最低')
+        ];
+    } else {
+        chart.data.datasets = [generateData(nowData.value)];
+    }
     chart.data.labels = generateLables(nowData.value);
     chart.update('active');
-});
+}
 
 function generateLables(data: Data[]): string[] {
     const date = data.map(v => v[0]);
     if (
         nowType.value === '年平均' ||
         nowType.value === '年最高' ||
-        nowType.value === '年最低'
+        nowType.value === '年最低' ||
+        nowType.value === '年最高|年最低|年平均'
     )
-        return date
-            .filter(v => /^\d{4}[-\/]0?1[-\/]0?1$/.test(v))
-            .map(v => v.slice(0, 4));
+        return getEvery(date, 12).map(v => v.slice(0, 4));
 
     if (nowType.value === '月平均') return date;
 
@@ -128,8 +133,8 @@ function generateLables(data: Data[]): string[] {
     return [];
 }
 
-function generateData(data: Data[]): ChartDataset {
-    if (nowType.value === '年平均')
+function generateData(data: Data[], type = nowType.value): ChartDataset {
+    if (type === '年平均')
         return {
             data: meanEvery(
                 data.map(v => v[1]),
@@ -137,9 +142,9 @@ function generateData(data: Data[]): ChartDataset {
             )
         };
 
-    if (nowType.value === '月平均') return { data: data.map(v => v[1]) };
+    if (type === '月平均') return { data: data.map(v => v[1]) };
 
-    if (nowType.value === '五年平均')
+    if (type === '五年平均')
         return {
             data: meanEvery(
                 data.map(v => v[1]),
@@ -147,7 +152,7 @@ function generateData(data: Data[]): ChartDataset {
             )
         };
 
-    if (nowType.value === '十年平均')
+    if (type === '十年平均')
         return {
             data: meanEvery(
                 data.map(v => v[1]),
@@ -155,7 +160,7 @@ function generateData(data: Data[]): ChartDataset {
             )
         };
 
-    if (nowType.value === '年最高')
+    if (type === '年最高')
         return {
             data: maxEvery(
                 data.map(v => v[1]),
@@ -163,7 +168,7 @@ function generateData(data: Data[]): ChartDataset {
             )
         };
 
-    if (nowType.value === '年最低')
+    if (type === '年最低')
         return {
             data: minEvery(
                 data.map(v => v[1]),
