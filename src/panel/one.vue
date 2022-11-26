@@ -234,10 +234,19 @@ onMounted(async () => {
             labels: []
         },
         options: {
+            elements: {
+                point: {
+                    radius: 0,
+                    hoverRadius: 0
+                },
+                line: {
+                    borderJoinStyle: 'round'
+                }
+            },
             scales: {
                 y: {
                     grid: {
-                        color: '#ddd3'
+                        color: '#ddd'
                     }
                 }
             },
@@ -245,9 +254,13 @@ onMounted(async () => {
                 legend: {
                     display: false
                 }
+            },
+            layout: {
+                padding: 20
             }
         }
     });
+    Chart.defaults.font.size = 20;
 
     mounted = true;
 });
@@ -255,7 +268,7 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 #one {
-    color: white;
+    color: black;
     width: 100%;
     height: 100%;
 }
