@@ -56,7 +56,7 @@ function meanOf(region: string, year: number) {
             y: data[0][5].endsWith('N')
                 ? parseFloat(data[0][5])
                 : -parseFloat(data[0][5]),
-            x: data[0][6].trim().endsWith('W')
+            x: data[0][6].trim().endsWith('E')
                 ? parseFloat(data[0][6])
                 : -parseFloat(data[0][6]),
             r: parseFloat(mean(toMean.map(v => v[1])).toFixed(2))
