@@ -93,7 +93,7 @@ onMounted(async () => {
     ).data;
 
     chartCanvas.width = window.innerWidth - 100;
-    chartCanvas.height = window.innerHeight - 100;
+    chartCanvas.height = window.innerHeight - 130;
 
     const set = data
         .split('\n')

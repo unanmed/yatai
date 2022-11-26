@@ -5,7 +5,7 @@
         <a-slider
             id="slider"
             :min="1750"
-            :max="2022"
+            :max="2013"
             v-model:value="now"
         ></a-slider>
     </div>

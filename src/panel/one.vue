@@ -1,27 +1,29 @@
 <template>
     <div id="one">
         <div id="select">
-            <span
+            <span class="select"
                 >数据模式：
-                <select v-model="nowType">
-                    <option v-for="t of dataType" :value="t">{{ t }}</option>
-                </select>
+                <a-select v-model:value="nowType" class="selector">
+                    <a-select-option v-for="t of dataType" :value="t">{{
+                        t
+                    }}</a-select-option>
+                </a-select>
             </span>
-            <span
+            <span class="select"
                 >国家：
-                <select v-model="contry">
-                    <option v-for="con of contries" :value="con">
+                <a-select v-model:value="contry" class="selector">
+                    <a-select-option v-for="con of contries" :value="con">
                         {{ con }}
-                    </option>
-                </select></span
+                    </a-select-option>
+                </a-select></span
             >
-            <span
+            <span class="select"
                 >城市：
-                <select v-model="region">
-                    <option v-for="city of allRegion" :value="city">
+                <a-select v-model:value="region" class="selector">
+                    <a-select-option v-for="city of allRegion" :value="city">
                         {{ city }}
-                    </option>
-                </select></span
+                    </a-select-option>
+                </a-select></span
             >
             <span
                 >经纬度：{{ latitude }}&nbsp;&nbsp;&nbsp;&nbsp;{{
@@ -187,7 +189,7 @@ onMounted(async () => {
     ).data;
 
     chartCanvas.width = window.innerWidth - 100;
-    chartCanvas.height = window.innerHeight - 100;
+    chartCanvas.height = window.innerHeight - 130;
 
     const set = data
         .split('\n')
@@ -278,5 +280,13 @@ onMounted(async () => {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.select {
+    width: 20%;
+}
+
+.selector {
+    width: 60%;
 }
 </style>
